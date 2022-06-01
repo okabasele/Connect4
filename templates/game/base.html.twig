@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+
+{% block header %}
+    Connect Four Game
+{% endblock %}
+
+
+{% block body %}
+
+{% for flash_message in app.session.flashBag.get('notice') %}
+	<div class="flash-notice">
+		{{ flash_message }}
+	</div>
+{% endfor %}
+
+
+
+{% block playerOne %}
+	<div class="player-container">
+		<div class="player-content">
+			<img src="/assets/img/icon_yellow.png" alt="" srcset="">
+			<div class="player-info">
+				<p class="text-center">martine</p>
+				<p class="text-center">1 victoire</p>
+			</div>
+		</div>
+		<div class="bg-image">
+			<img src="/assets/img/item_gameplayer.png" alt="" srcset="">
+		</div>
+        
+		<p class="text-center">
+			{% block statusOne %}{% endblock %}
+        </p>
+	</div>
+{% endblock %}
+
+<div id="game-container">
+	{% block game %}{% endblock %}
+</div>
+
+{# {% block players %}
+    <div id="players-container">
+        {% set currentPlayer = game.getCurrentPlayer() %}
+        {% set firstPlayer = game.getFirstPlayer() %}
+        {% set secondPlayer = game.getSecondPlayer() %}
+        <div class="{{ currentPlayer == firstPlayer ? 'now-playing' : '' }}">
+            <div class="badge {{ game.getPlayerColor(firstPlayer) }}"></div>
+            {{ firstPlayer.getUsername() }}
+        </div>
+        <div class="{{ currentPlayer == secondPlayer ? 'now-playing' : '' }}">
+            <div class="badge {{ game.getPlayerColor(secondPlayer) }}"></div>
+            {{ secondPlayer.getUsername() }}
+        </div>
+    </div>
+    
+{% endblock %} #}
+	{% block playerTwo %}
+		<div class="player-container">
+			<div class="player-content">
+				<img src="/assets/img/icon_red.png" alt="" srcset="">
+				<div class="player-info">
+					<p class="text-center">lucas</p>
+					<p class="text-center">0 victoire</p>
+
+				</div>
+			</div>
+			<div class="bg-image">
+				<img src="/assets/img/item_gameplayer.png" alt="" srcset="">
+			</div>
+			<p class="text-center">
+            	{% block statusTwo %}{% endblock %}
+            </p>
+
+		</div>
+	{% endblock %}
+
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/css/game.css') }}"/>
+{% endblock %}

@@ -5,7 +5,11 @@
         {% for column in game.getBoardClass().getCells() %}
             <div class="column">
                 {% for disc in column | reverse %}
+                    {% if disc %}
+                        <div class="cell disc {{ game.getPlayerColor(disc.getPlayer()) }}"></div>
+                    {% else %}
                         <div class="cell empty"></div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endfor %}

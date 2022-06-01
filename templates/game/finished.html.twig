@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/css/popup.css') }}"/>
+{% endblock %}
+
+{# {% block status %}
+    Game over,
+    {% if game.getWinner() %}
+        {% set winner = game.getWinner() %}
+        Winner is :
+        <div class="badge {{ game.getPlayerColor(winner) }}"></div>
+        {{ winner.getUsername() }}
+    {% else %}
+        Draw
+    {% endif %}
+{% endblock %}
+
+{% block game %}
+    {% set disabled = true %}
+    {{ parent() }}
+{% endblock %} #}
+
+{% block status %}
+	<div class="popup">
+    <div class="popup-content">
+    <h1 class="popup-title text-center">Vous avez perdu</h1>
+    <p class="text-center">Vous avez eu 0 victoire</p>
+    
+    </div>
+		<img src="/assets/img/popup.png" alt="" srcset="">
+		<div class="overlay"></div>
+	</div>
+{% endblock %}

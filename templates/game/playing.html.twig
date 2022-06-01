@@ -1,0 +1,31 @@
+{% extends 'game/board.html.twig' %}
+
+{% block statusOne %}
+	Votre tour
+{% endblock %}
+
+{# {% block game %}
+    <div id="controls-container">
+        {% for i in 0..game.getBoardClass().getCells() | length - 1 %}
+            <form action="{{ path('dropDisc', { 'id': game.getId(), 'column': i}) }}" method="post">
+                <button type="submit">V</button>
+            </form>
+        {% endfor %}
+        <div class="clearfix"></div>
+    </div>
+
+    {{ parent() }}
+{% endblock %} #}
+
+{% block game %}
+	<div id="controls-container">
+		{% for i in 0..game.getBoardClass().getCells() | length - 1 %}
+			<form action="{{ path('dropDisc', { 'id': 1, 'column': i}) }}" method="post">
+					<button class="fs-1" type="submit">V</button>
+			</form>
+		{% endfor %}
+		<div class="clearfix"></div>
+	</div>
+
+	{{ parent() }}
+{% endblock %}
