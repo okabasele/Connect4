@@ -1,0 +1,122 @@
+#game-container {
+    float: left;
+    margin: 0 20px;
+}
+
+#status {
+    margin: 0 0 10px;
+}
+
+.flash-notice {
+    background-color: orange;
+}
+
+.now-playing {
+    font-weight: bold;
+}
+
+#controls-container {
+    margin: 0 10px 10px;
+}
+
+#controls-container form {
+    display: inline-block;
+    margin: 2px;
+    box-sizing: border-box;
+}
+
+#controls-container button {
+    height: 100px;
+    width: 100px;
+    border: none;
+    background: none;
+    color: #7363D1;
+    text-shadow:
+     -1px -1px 0 #281599,  
+      1px -1px 0 #281599,
+      -1px 1px 0 #281599,
+       1px 1px 0 #281599;
+}
+
+.winner {
+    display: inline-block;
+}
+
+#board {
+    background-color: #7363D1;
+    padding: 10px;
+    border: 6px solid #281599;
+    border-radius: 30px;
+}
+
+#board.disabled {
+    opacity: 0.2;
+}
+
+.column {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100px;
+    margin: 2px;
+}
+
+.cell, .disc {
+    height: 100px;
+    width: 100px;
+    border: 1px solid white;
+    box-sizing: border-box;
+    border-radius: 50px;
+    margin: 5px 0;
+}
+
+.cell.empty {
+    background-color: rgb(240, 239, 239);
+}
+
+.disc.yellow {
+    /* background-color: #FFFF7F; */
+    background-image: url("/assets/img/icon_yellow.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top center;
+}
+
+.disc.red{
+    /* background-color: #FF8080; */
+    background-image: url("/assets/img/icon_red.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top center;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.container-body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-container{
+    position: relative;
+}
+
+.player-content{
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+.player-content img{
+    height: 100px;
+}
+
+.player-info{
+    margin-top: 20px;
+}
+
+.player-info p{
+    color: #1A0D79;
+}

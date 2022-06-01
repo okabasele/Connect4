@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'bpreplaybold';
+    src: url('/assets/fonts/bpreplaybold-webfont.woff2') format('woff2'),
+        url('/assets/fonts/bpreplaybold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'bpreplaybold';
+    color: white;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.background {
+    background-image: url("/assets/img/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top center;
+
+}
