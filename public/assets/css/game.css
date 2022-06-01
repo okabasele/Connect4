@@ -120,3 +120,7 @@
 .player-info p{
     color: #1A0D79;
 }
+
+.dropDisc{
+    visibility: hidden;
+}

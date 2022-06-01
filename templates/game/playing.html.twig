@@ -15,12 +15,14 @@
     </div>
 
     {{ parent() }}
-{% endblock %} #}
+{% endblock %} 
+
+#}
 
 {% block game %}
 	<div id="controls-container">
 		{% for i in 0..game.getBoardClass().getCells() | length - 1 %}
-			<form action="{{ path('dropDisc', { 'id': 1, 'column': i}) }}" method="post">
+			<form action="{{ path('dropDisc', { 'id': 1, 'column': i}) }}"  class="dropDisc" method="post">
 					<button class="fs-1" type="submit">V</button>
 			</form>
 		{% endfor %}
