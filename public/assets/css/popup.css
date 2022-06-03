@@ -28,17 +28,6 @@
     z-index: -1;
 }
 
-.game-button {
-    height: 55px;
-    width: 132px;
-    border: none;
-    background-color: transparent;
-    background-image: url('/assets/img/button.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top center;
-}
-
 .list-buttons {
     margin-top: 40px;
 
