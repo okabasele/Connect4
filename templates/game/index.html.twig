@@ -1,14 +1,36 @@
-{% extends 'game/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block game %}
-    <div id="board" class="{{ disabled|default(false) ? 'disabled' : '' }}">
-        {% for column in game.getBoardClass().getCells() %}
-            <div class="column">
-                {% for disc in column | reverse %}
-                        <div class="cell empty"></div>
-                {% endfor %}
-            </div>
-        {% endfor %}
-        <div class="clearfix"></div>
-    </div>
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}"/>
+{% endblock %}
+
+{% block status %}
+
+	<div class="home">
+		<div class="logo"></div>
+        <div id="register">
+			{{ form_start(formWaitingList) }}
+			{{ form_row(formWaitingList.username, {
+                'label': "Nom d'utilisateur", 
+                'attr': {
+                    'placeholder': "Entrez votre nom d'utilisateur"
+                }})
+			}}
+			<button class="game-button" type="submit">CONTINUER</button>
+			{{ form_end(formWaitingList) }}
+		</div>
+	</div>
+
+	{# <div class="popup">
+				    <div class="popup-content">
+				    <h1 class="popup-title text-center">Vous avez perdu</h1>
+				    <p class="text-center">Egalité</p>
+				    <p class="text-center">Vous avez eu 0 victoire</p>
+				    <div class="list-buttons">
+				    <button class="game-button" type="submit">CONTINUER</button>
+				    <button class="game-button" type="submit">ARRETER</button>
+				    </div>
+				    </div>
+						<div class="overlay"></div>
+					</div> #}
 {% endblock %}
