@@ -21,8 +21,8 @@ class Game
     const PLAYING = 1;
     const FINISHED = 2;
 
-    const FIRST_PLAYER_COLOR = 'YELLOW';
-    const SECOND_PLAYER_COLOR = 'RED';
+    const FIRST_PLAYER_COLOR = 'yellow';
+    const SECOND_PLAYER_COLOR = 'red';
 
     private $boardClass;
     private $finished;
@@ -317,6 +317,7 @@ class Game
         return $cnt;
     }
 
+    // check limit horizontal
     private function isHorizontallyInBounds($x, $column, $columnStep, $maxPositions)
     {
         if ($columnStep < 0) {
@@ -326,6 +327,7 @@ class Game
         }
     }
 
+    //check limit vertical
     private function isVerticallyInBounds($y, $row, $rowStep, $maxPositions)
     {
         if ($rowStep < 0) {
@@ -334,6 +336,7 @@ class Game
             return $y <= $row + ($maxPositions * $rowStep);
         }
     }
+
 
     public function replayMoves()
     {
@@ -344,6 +347,7 @@ class Game
         }
     }
 
+    //get player color
     public function getPlayerColor(Player $player) : string
     {
         return $player->getColor();
