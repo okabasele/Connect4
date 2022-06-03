@@ -1,0 +1,14 @@
+{% extends 'game/base.html.twig' %}
+
+{% block game %}
+    <div id="board" class="{{ disabled|default(false) ? 'disabled' : '' }}">
+        {% for column in game.getBoardClass().getCells() %}
+            <div class="column">
+                {% for disc in column | reverse %}
+                        <div class="cell empty"></div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}
