@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-    // console.log($(".column"));
-    // console.log($(".dropDisc"));
+    $(".dropDisc").eq(0).css("visibility", "visible");
+    $(".dropDisc").not($(".dropDisc").eq(0)).css("visibility", "hidden");
 
 $(".column").each(function( index ) {
     $(this).hover(function(){
