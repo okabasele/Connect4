@@ -19,16 +19,34 @@
 {% block game %}
     {% set disabled = true %}
     {{ parent() }}
-{% endblock %} #}
+{% endblock %} 
+
+
+A FINIRR
+
+AJOUTER LES DIFFERENTS CAS
+
+SI ON PERD ON REJOUE ET ON RETOURNE DANS LISTE D'ATTENTE
+EGALITE SOIT ON REMATCH SOIT ON RETOURNE DANS LA LISTE D'ATTENTE
+ON GAGNE SOIT ON RESTE SOIT ON RETOURNE DANS LA LISTE D'ATTENTE
+
+CREE UN TEMPLATE "LISTE D'ATTENTE"
+
+#}
+
+
 
 {% block status %}
 	<div class="popup">
     <div class="popup-content">
     <h1 class="popup-title text-center">Vous avez perdu</h1>
+    <p class="text-center">Egalité</p>
     <p class="text-center">Vous avez eu 0 victoire</p>
-    
+    <div class="list-buttons">
+    <button class="game-button" type="submit">CONTINUER</button>
+    <button class="game-button" type="submit">ARRETER</button>
     </div>
-		<img src="/assets/img/popup.png" alt="" srcset="">
+    </div>
 		<div class="overlay"></div>
 	</div>
 {% endblock %}
