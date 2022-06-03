@@ -1,13 +1,7 @@
-@font-face {
-    font-family: 'bpreplaybold';
-    src: url('/assets/fonts/bpreplaybold-webfont.woff2') format('woff2'),
-        url('/assets/fonts/bpreplaybold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
 * {
-    font-family: 'bpreplaybold';
+    font-family: 'Fredoka One', cursive;
     color: white;
 }
 
