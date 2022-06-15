@@ -2,6 +2,9 @@
 
 namespace ConnectFour;
 
+use App\Entity\Game;
+use App\Entity\Player;
+
 class Board
 {
     const COLUMNS = 7;
@@ -98,7 +101,7 @@ class Board
         throw new OutOfBoardException();
     }
 
-    public function getCellsToString() : string
+    public function getCellsToString(Game $game) : string
     {
         $result="";
         for ($i = 0; $i < self::COLUMNS; ++$i) {
@@ -108,7 +111,13 @@ class Board
                     $tmp.= ".";
                 } else {
                     $disc = $this->cells[$i][$j];
-                    $tmp.= $disc->getPlayer()->getColor()[0];
+                    $player = $disc->getPlayer();
+                    if ($game->getPlayerOne()->getId()==$player->getId()) {
+                        $tmp.= 'y';
+                    } else {
+                        $tmp.= 'r';
+
+                    }
                 }
                 
             }

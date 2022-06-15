@@ -2,19 +2,33 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+
 use App\Repository\GameRepository;
 use ConnectFour\Board;
 use ConnectFour\DiscNotFoundException;
 use ConnectFour\GameFinishedException;
 use ConnectFour\NotYourTurnException;
 use ConnectFour\OutOfBoardException;
-use ConnectFour\Player;
+use App\Entity\Player;
 use ConnectFour\TooManyPlayersException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
+
+#[ApiResource(
+    [
+        'normalizationContext' => ['groups' => 'game:read'],
+        'denormalizationContext' => ['groups' => 'game:write']
+    ],
+    paginationEnabled: false,
+    mercure: true
+)]
+
 class Game
 {
     const WAITING = 0;
@@ -26,40 +40,52 @@ class Game
 
     private $boardClass;
     private $finished;
-    
-    private $startingPlayer;
-    private $currentPlayer;
 
-    private $firstPlayer;
-    private $secondPlayer;
+    #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'games', cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "starting_player_id", referencedColumnName: "id")]
+    private $startingPlayer;
+
+    #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'games', cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "current_player_id", referencedColumnName: "id")]
+    private $currentPlayer;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['game:read'])]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'games', cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "player_one_id", referencedColumnName: "id")]
+    #[Groups(['game:read', 'game:write'])]
     private $player_one;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'games', cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "player_two_id", referencedColumnName: "id")]
+    #[Groups(['game:read', 'game:write'])]
     private $player_two;
 
     #[ORM\Column(type: 'text')]
+    #[Groups(['game:read', 'game:write'])]
     private $board;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['game:read', 'game:write'])]
     private $status;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['game:read', 'game:write'])]
     private $result;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Round::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Round::class, orphanRemoval: true, cascade: ["all"])]
+    #[Groups(['game:read'])]
     private $rounds;
 
     public function __construct()
     {
         $this->boardClass = new Board();
         $this->rounds = new ArrayCollection();
+        
     }
 
     public function getId(): ?int
@@ -67,24 +93,24 @@ class Game
         return $this->id;
     }
 
-    public function getPlayerOne(): ?string
+    public function getPlayerOne(): ?Player
     {
         return $this->player_one;
     }
 
-    public function setPlayerOne(string $player_one): self
+    public function setPlayerOne(?Player $player_one): self
     {
         $this->player_one = $player_one;
 
         return $this;
     }
 
-    public function getPlayerTwo(): ?string
+    public function getPlayerTwo(): ?Player
     {
         return $this->player_two;
     }
 
-    public function setPlayerTwo(string $player_two): self
+    public function setPlayerTwo(?Player $player_two): self
     {
         $this->player_two = $player_two;
 
@@ -108,12 +134,12 @@ class Game
         return $this;
     }
 
-    /*
+    
     public function getStatus(): ?string
     {
         return $this->status;
     }
-*/
+
 
     public function setStatus(string $status): self
     {
@@ -164,29 +190,18 @@ class Game
         return $this;
     }
 
-    public function getCurrentPlayer() : Player
+    public function getCurrentPlayer(): Player
     {
         return $this->currentPlayer;
     }
 
-    public function getSecondPlayer() : Player
-    {
-        return $this->secondPlayer;
-    }
-
-    public function getFirstPlayer() : Player
-    {
-        return $this->firstPlayer;
-    }
-
-    public function getGameStatus() : string
+    public function getGameStatus(): string
     {
         if ($this->isFinished()) {
             return self::FINISHED;
-        } elseif ((bool) $this->firstPlayer && (bool) $this->secondPlayer) {
+        } elseif ((bool) $this->player_one && (bool) $this->player_two) {
             return self::PLAYING;
         }
-
         return self::WAITING;
     }
 
@@ -197,17 +212,16 @@ class Game
 
     public function addPlayer(Player $player)
     {
-        if (!$this->firstPlayer) {
-            $player->setColor(self::FIRST_PLAYER_COLOR);
-            $this->firstPlayer = $player;
-            $this->player_one = $player->getUsername()."(YELLOW)";
-        } elseif (!$this->secondPlayer) {
-            $player->setColor(self::SECOND_PLAYER_COLOR);
-            $this->secondPlayer = $player;
-            $this->player_two = $player->getUsername()."(RED)";
+        if (!$this->player_one) {
+                $player->setColor(self::FIRST_PLAYER_COLOR);
+            $this->player_one = $player;
+        } elseif (!$this->player_two) {
+                $player->setColor(self::SECOND_PLAYER_COLOR);
+            
+            $this->player_two = $player;
 
             // here both players are assigned, we can decide who starts
-            $this->startingPlayer = rand(0, 1) == 0 ? $this->firstPlayer : $this->secondPlayer;
+            $this->startingPlayer = rand(0, 1) == 0 ? $this->player_one : $this->player_two;
             $this->currentPlayer = $this->startingPlayer;
         } else {
             throw new TooManyPlayersException();
@@ -226,16 +240,18 @@ class Game
         $rowAdded = $this->getBoardClass()->addDisc($column, $player);
 
         if ($addMove) {
-            $round = new Round($this, $column,$rowAdded,$player);
-            $this->getRounds()->add($round);
+            $round = new Round($this, $column, $rowAdded, $player);
+            $this->addRound($round);
+
+           
         }
 
         if ($this->isDiscWinner($column, $rowAdded)) {
             $this->winner = $player;
             $this->finished = true;
             $this->setStatus("FINISHED");
-            $this->setResult($player->getUsername()." won.");
-            $this->board = $this->getBoardClass()->getCellsToString();
+            $this->setResult($player->getUsername() . " won.");
+            $this->board = $this->getBoardClass()->getCellsToString($this);
 
             return;
         }
@@ -254,7 +270,29 @@ class Game
     //On change de joueur
     private function switchPlayer()
     {
-        $this->currentPlayer = ($this->firstPlayer == $this->currentPlayer) ? $this->secondPlayer : $this->firstPlayer;
+        $this->currentPlayer = ($this->player_one == $this->currentPlayer) ? $this->player_two : $this->player_one;
+    }
+
+    //ia qui joue
+    public function aiPlaying(){
+        if ($this->currentPlayer->getId() == 0) {
+            if ($this->getRounds()->count()==0) {
+                $this->currentPlayer->dropDisc($this, 0, true); 
+            } else {
+                $lastRound = $this->getRounds()->last();
+                // $rand = rand(0,1);
+                $column = $lastRound->getColumn();
+                $row = $lastRound->getRow();
+                if ($row + 1 < 6) {
+                    $column = $lastRound->getColumn();
+                } elseif ($column - 1 >= 0) {
+                    $column = $column - 1;
+                } elseif ($column + 1 < 7) {
+                    $column = $column + 1;
+                }
+                $this->currentPlayer->dropDisc($this, $column, true);
+            }
+        }
     }
 
     //Verifie s'il y a un puissance 4
@@ -262,25 +300,25 @@ class Game
     {
         $player = $this->getBoardClass()->getDisc($column, $row)->getPlayer();
         $horizontalCount = 1 + $this->countConsecutiveDiscsAsideOf($column, $row, $player, -1, 0)
-        + $this->countConsecutiveDiscsAsideOf($column, $row, $player, +1, 0);
+            + $this->countConsecutiveDiscsAsideOf($column, $row, $player, +1, 0);
         if ($horizontalCount >= 4) {
             return true;
         }
 
         $verticalCount = 1 + $this->countConsecutiveDiscsAsideOf($column, $row, $player, 0, -1)
-        + $this->countConsecutiveDiscsAsideOf($column, $row, $player, 0, +1);
+            + $this->countConsecutiveDiscsAsideOf($column, $row, $player, 0, +1);
         if ($verticalCount >= 4) {
             return true;
         }
 
         $topLeftBottomRightCount = 1 + $this->countConsecutiveDiscsAsideOf($column, $row, $player, -1, -1)
-        + $this->countConsecutiveDiscsAsideOf($column, $row, $player, +1, +1);
+            + $this->countConsecutiveDiscsAsideOf($column, $row, $player, +1, +1);
         if ($topLeftBottomRightCount >= 4) {
             return true;
         }
 
         $bottomLeftTopRightCount = 1 + $this->countConsecutiveDiscsAsideOf($column, $row, $player, -1, +1)
-        + $this->countConsecutiveDiscsAsideOf($column, $row, $player, +1, -1);
+            + $this->countConsecutiveDiscsAsideOf($column, $row, $player, +1, -1);
         if ($bottomLeftTopRightCount >= 4) {
             return true;
         }
@@ -338,18 +376,34 @@ class Game
     }
 
 
+    //get player color
+    public function getPlayerColor(Player $player): string
+    {
+        return $player->getColor();
+    }
+
     public function replayMoves()
     {
         $this->boardClass = new Board();
         $this->currentPlayer = $this->startingPlayer;
-        foreach ($this->moves as $move) {
-            $move->getPlayer()->dropDisc($this, $move->getColumn(), false);
+        foreach ($this->rounds as $round) {
+            $round->getPlayer()->dropDisc($this, $round->getColumn(), false);
         }
     }
 
-    //get player color
-    public function getPlayerColor(Player $player) : string
+    public function __toString()
     {
-        return $player->getColor();
+        // return "id :" . $this->id . " / playerOne :" . $this->player_one . " / playerTwo :" . $this->player_two . " / status :" . $this->status . " / result:" . $this->result." / currentPlayer".$this->currentPlayer." / startingPlayer".$this->startingPlayer;
+        $res = json_encode([
+            'id' => $this->id,
+            'player_one' => $this->player_one,
+            'player_two' => $this->player_two,
+            'board' => $this->board,
+            'status' => $this->status,
+            'result' => $this->result,
+            // 'rounds' => $this->rounds,
+        ]);
+        $array= json_decode($res,true);
+        return json_encode($array);;
     }
 }

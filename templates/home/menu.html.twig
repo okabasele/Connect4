@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}"/>
+{% endblock %}
+
+{% block status %}
+
+	<div class="home">
+		<div class="logo"></div>
+		 <div id="mode-choice">
+			<button class="game-button">
+				<a href="{{path('game_solo')}}">
+					1 JOUEUR
+				</a>
+			</button>
+			<form action="{{path('game_duo')}}" method="post">
+			<input type="hidden" name="menu_choice" value="2">
+			<button type="submit" class="game-button">
+					2 JOUEURS
+			</button>
+			</form>
+		</div> 
+{% endblock %}

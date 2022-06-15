@@ -1,0 +1,15 @@
+{% extends 'game/board.html.twig' %}
+
+
+{% block statusOne %}
+{% if game.getPlayerOne().id != app.session.get('player').id  %}
+		Réflechit...
+{% endif %}
+{% endblock %}
+
+{% block statusTwo %}
+{% if game.getPlayerTwo().id != app.session.get('player').id  %}
+		Réflechit...
+{% endif %}
+{% endblock %}
+

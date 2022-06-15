@@ -4,10 +4,14 @@
 	<link rel="stylesheet" href="{{ asset('assets/css/dots.css') }}"/>
 {% endblock %}
 
+{% block javascripts %}
+	<script src="{{ asset('assets/js/join.js') }}"></script>
+{% endblock %}
+
 {% block body%}
 	<div id="waiting" class="d-flex align-items-center justify-content-center">
 		<h1>
-			Recherche d'un joueur aléatoire
+			En attente
 		</h1>
 		<div class="col-3 d-flex align-items-center">
 			<div class="snippet" data-title=".dot-pulse">
@@ -17,12 +21,4 @@
 			</div>
 		</div>
 	</div>
-{% endblock %}
-
-{% block javascripts %}
-<script>
-	const eventSource = new EventSource("{{ mercure(['games+']) }}");
-	// The callback will be called every time an update is published
-	eventSource.onmessage = () => location.reload(); // do something with the payload
-</script>
 {% endblock %}

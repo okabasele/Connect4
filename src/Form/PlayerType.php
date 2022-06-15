@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\WaitingList;
+use App\Entity\Player;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WaitingListType extends AbstractType
+class PlayerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -22,7 +22,7 @@ class WaitingListType extends AbstractType
             'attr' => [
                 'novalidate' => 'novalidate'
             ],
-            'data_class' => WaitingList::class,
+            'data_class' => Player::class,
             'csrf_protection' => false,
         ]);
     }

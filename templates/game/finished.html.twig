@@ -35,18 +35,34 @@ CREE UN TEMPLATE "LISTE D'ATTENTE"
 #}
 
 
-
 {% block status %}
 	<div class="popup">
-    <div class="popup-content">
-    <h1 class="popup-title text-center">Vous avez perdu</h1>
-    <p class="text-center">Egalité</p>
-    <p class="text-center">Vous avez eu 0 victoire</p>
-    <div class="list-buttons">
-    <button class="game-button" type="submit">CONTINUER</button>
-    <button class="game-button" type="submit">ARRETER</button>
-    </div>
-    </div>
+		<div class="popup-content">
+		{% if  app.session.get('player').username in game.result %}
+			<h1 class="popup-title text-center">Vous avez gagné</h1>
+			
+		{% elseif game.result == "TIE" %}
+			<h1 class="popup-title text-center">Vous êtes à égalité</h1>
+
+		{% else %}
+			<h1 class="popup-title text-center">Vous avez perdu</h1>
+			
+		{% endif %}
+			<div class="list-buttons">
+				<form action="{{path('game_duo')}}" method="post">
+			<input type="hidden" name="menu_choice" value="2">
+			<button type="submit" class="game-button">
+					CONTINUER
+			</button>
+			</form>
+				<button class="game-button">
+					<a href="{{path('app_menu')}}">
+						ARRETER
+					</a>
+
+				</button>
+			</div>
+		</div>
 		<div class="overlay"></div>
 	</div>
 {% endblock %}

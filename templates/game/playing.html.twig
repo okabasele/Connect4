@@ -1,33 +1,27 @@
 {% extends 'game/board.html.twig' %}
 
 {% block statusOne %}
-	Votre tour
+{% if game.getPlayerOne().id == app.session.get('player').id  %}
+		Votre tour
+{% endif %}
 {% endblock %}
 
-{# {% block game %}
-    <div id="controls-container">
-        {% for i in 0..game.getBoardClass().getCells() | length - 1 %}
-            <form action="{{ path('dropDisc', { 'id': game.getId(), 'column': i}) }}" method="post">
-                <button type="submit">V</button>
-            </form>
-        {% endfor %}
-        <div class="clearfix"></div>
-    </div>
-
-    {{ parent() }}
-{% endblock %} 
-
-#}
+{% block statusTwo %}
+{% if game.getPlayerTwo().id == app.session.get('player').id  %}
+		Votre tour
+{% endif %}
+{% endblock %}
 
 {% block game %}
-	<div id="controls-container">
-		{% for i in 0..game.getBoardClass().getCells() | length - 1 %}
-			<form action="{{ path('dropDisc', { 'id': 1, 'column': i}) }}"  class="dropDisc" method="post">
+		<div id="controls-container">
+			{% for i in 0..game.getBoardClass().getCells() | length - 1 %}
+				<form action="{{ path('dropDisc', { 'id': game.id, 'column': i,'player':playerID}) }}" class="dropDisc" method="post">
 					<button class="fs-1" type="submit">V</button>
-			</form>
-		{% endfor %}
-		<div class="clearfix"></div>
-	</div>
+				</form>
+			{% endfor %}
+			<div class="clearfix"></div>
+		</div>
 
-	{{ parent() }}
+		{{ parent() }}
 {% endblock %}
+

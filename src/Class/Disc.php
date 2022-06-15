@@ -2,6 +2,8 @@
 
 namespace ConnectFour;
 
+use App\Entity\Player;
+
 class Disc
 {
     private $player;

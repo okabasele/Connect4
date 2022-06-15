@@ -6,7 +6,13 @@
             <div class="column">
                 {% for disc in column | reverse %}
                     {% if disc %}
-                        <div class="cell disc {{ game.getPlayerColor(disc.getPlayer()) }}"></div>
+    {% if  disc.getPlayer().getId() == game.getPlayerOne().getId() %}
+        
+                        <div class="cell disc yellow"></div>
+    {% else %}
+                        <div class="cell disc red"></div>
+        
+    {% endif %}
                     {% else %}
                         <div class="cell empty"></div>
                     {% endif %}

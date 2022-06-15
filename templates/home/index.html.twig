@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}"/>
+{% endblock %}
+
+{% block status %}
+
+	<div class="home">
+		<div class="logo"></div>
+		<div id="register">
+					{{ form_start(form) }}
+					{{ form_row(form.username, {
+		                'label': "Nom d'utilisateur", 
+		                'attr': {
+		                    'placeholder': "Entrez votre nom d'utilisateur"
+		                }})
+								}}
+					<button class="game-button" type="submit">CONTINUER</button>
+					{{ form_end(form) }}
+				</div>
+
+		{# <div id="mode-choice">
+			<button class="game-button">
+				<a href="">
+					1 JOUEUR
+				</a>
+			</button>
+			<button class="game-button">
+				<a href="">
+					2 JOUEURS
+				</a>
+			</button>
+
+		</div> #}
+{% endblock %}

@@ -30,22 +30,18 @@
     width: 100px;
     border: none;
     background: none;
-    color: #7363D1;
+    color: var(--main-purple);
     text-shadow:
-     -1px -1px 0 #281599,  
-      1px -1px 0 #281599,
-      -1px 1px 0 #281599,
-       1px 1px 0 #281599;
-}
-
-.winner {
-    display: inline-block;
+     -1px -1px 0 var(--main-border-color),  
+      1px -1px 0 var(--main-border-color),
+      -1px 1px 0 var(--main-border-color),
+       1px 1px 0 var(--main-border-color);
 }
 
 #board {
-    background-color: #7363D1;
+    background-color: var(--main-purple);
     padding: 10px;
-    border: 6px solid #281599;
+    border: 6px solid var(--main-border-color);
     border-radius: 30px;
 }
 

@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
+:root {
+    --main-purple:#7363D1;
+    --main-border-color:#281599;
+}
+
 * {
     font-family: 'Fredoka One', cursive;
     color: white;
@@ -38,4 +43,17 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top center;
+}
+.game-button a{
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover{
+    color: white !important;
+
+}
+
+input[type=text] {
+    color: #000 !important;
 }
