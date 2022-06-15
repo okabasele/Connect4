@@ -39,13 +39,17 @@ CREE UN TEMPLATE "LISTE D'ATTENTE"
 	<div class="popup">
 		<div class="popup-content">
 		{% if  app.session.get('player').username in game.result %}
-			<h1 class="popup-title text-center">Vous avez gagné</h1>
-			
+			<h1 class="popup-title text-center">Félicitations {{app.session.get('player').username}}</h1>
+			<p class="text-center">Vous avez gagné</p>
 		{% elseif game.result == "TIE" %}
-			<h1 class="popup-title text-center">Vous êtes à égalité</h1>
+			<h1 class="popup-title text-center">Tant pis</h1>
+			<p class="text-center">Vous êtes à égalité</p>
+
 
 		{% else %}
-			<h1 class="popup-title text-center">Vous avez perdu</h1>
+			<h1 class="popup-title text-center">Dommage {{app.session.get('player').username}}</h1>
+			<p class="text-center">Vous avez perdu</p>
+			
 			
 		{% endif %}
 			<div class="list-buttons">
